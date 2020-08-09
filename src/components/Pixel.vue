@@ -1,7 +1,7 @@
 <template>
   <div
-    @click="interactive && changeColor(color)"
     :class="['pixel', color, current ? 'current' : '']"
+    @click="handleClick"
   ></div>
 </template>
 
@@ -37,11 +37,18 @@ export default {
   props: {
     color: String,
     current: Boolean,
-    interactive: Boolean,
+    isInColorPicker: Boolean,
+    isInCanvas: Boolean,
+    index: Number,
   },
   methods: {
-    changeColor: function(color) {
-      this.$root.$emit("updatecolor", color);
+    handleClick: function() {
+      if (this.isInColorPicker) {
+        this.$root.$emit("updatecolor", this.color);
+      }
+      if (this.isInCanvas) {
+        this.$root.$emit("clickedpixel", this.index);
+      }
     },
   },
 };
